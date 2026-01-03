@@ -11,7 +11,7 @@ Decode and display IUPAC code information
 ## Quick Start
 
 ```
-% iupack
+% iupak
 A=A	C=C	G=G	T=T	
 K=GT	M=AC	R=AG	S=GC	
 W=AT	Y=CT	B=CGT	D=AGT	
@@ -22,7 +22,7 @@ H=ACT	V=ACG	N=ACGT
 
 % iupak -t
 <snip>
-	CT
+Y	CT
 B	CGT
 D	AGT
 H	ACT
@@ -45,7 +45,7 @@ FIXME
 ### Conda
 If you are using [Conda](https://bioconda.github.io/user/install.html)
 ```
-% conda install -c bioconda iupak
+% conda install -c bioconda iupak # COMING SOON
 $ iupak -h
 ```
 
