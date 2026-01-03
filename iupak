@@ -1,0 +1,117 @@
+#!/usr/bin/env perl
+use 5.26.0;
+use strict;
+use warnings;
+use Data::Dumper;
+use File::Basename;
+use Getopt::Std;
+
+#......................................................................................
+
+my $VERSION = '0.5.0';
+my $EXE = basename($0);
+
+ #......................................................................................
+
+my $quiet=0;
+sub msg { say STDERR "@_" unless $quiet; }
+sub wrn { msg("WARNING:", @_); }
+sub err { msg("ERROR:", @_); exit(1); }
+
+#......................................................................................
+
+my %opt = ();
+
+sub usage {
+  print <<"EOHELP";
+SYNOPSIS
+  Decode and report IUPAC DNA codes
+USAGE
+  $EXE [opts] <DNA | FASTA>
+OPTIONS
+  -h     Show this help
+  -v     Print version and exit
+  -q     Quiet mode
+  -t     Output full table and exit
+  -u     RNA mode, use U instead of T
+  -r     Print corresponding regex
+END
+EOHELP
+  exit(0); 
+}
+getopts('hqtruv', \%opt) or exit(-1);
+$opt{'h'} and usage();
+#@ARGV or err("Need some DNA sequence");
+$quiet=1 if $opt{'q'};
+$opt{'v'} and print_version();
+
+
+#.............................................
+
+# read in map table from bottom of script
+my $tt = load_table();
+
+if ($opt{'t'} or !@ARGV) {
+  my @sym = sort
+    { length($$tt{$a}) <=> length($$tt{$b}) or $a cmp $b } 
+    keys %$tt;
+  print map { $_."\t".$$tt{$_}."\n" } @sym;
+  exit(0);
+}
+
+for my $argv (@ARGV) {
+  if (-f $argv) {
+    wrn("Input files are not supported yet.");
+  }
+  else {
+    say dna2regex($argv, $tt);
+  }
+}
+exit(0);
+
+#.............................................
+sub print_version {
+  say "$EXE $VERSION";
+  exit(0);
+}
+#.............................................
+sub dna2regex {
+  my($dna, $tt) = @_;
+  my $re = '';
+  for my $c (split //, uc $dna) {
+    $c = $tt->{$c} // $c;
+    $re .= length($c)==1 ? $c : "[$c]";
+  }
+  return '/'.$re.'/';
+}
+#.............................................
+sub load_table {
+  my $tt = {};
+  while (<DATA>) {
+    chomp;
+    s/T/U/gi if $opt{'u'};
+    my($sym,$set) = split ' ';
+    $tt->{$sym} = $set;
+  }
+  return $tt;
+}
+#.............................................
+# Taken from 
+# https://www.bioinformatics.org/sms/iupac.html
+
+__DATA__
+A	A
+C	C
+G	G
+T	T
+R	AG
+Y	CT
+S	GC
+W	AT
+K	GT
+M	AC
+B	CGT
+D	AGT
+H	ACT
+V	ACG
+N	ACGT
