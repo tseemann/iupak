@@ -6,7 +6,7 @@
 
 # iupak
 
-Decode and display IUPAC code information
+Decode and display DNA IUPAC code information
 
 ## Quick Start
 
@@ -52,7 +52,7 @@ $ iupak -h
 ### Direct script download
 
 ```
-% wget % https://raw.githubusercontent.com/tseemann/iupak/refs/heads/main/iupak
+% wget https://raw.githubusercontent.com/tseemann/iupak/refs/heads/main/iupak
 % chmod +x iupak
 % iupak -h
 ```   
@@ -63,7 +63,7 @@ $ iupak -h
 
 ## Citation
 
-* Seemann T, `iupak` **Github** https://github.com/tseemann/iupak
+Seemann T, `iupak` **Github** https://github.com/tseemann/iupak
 
 ## Feedback
 
