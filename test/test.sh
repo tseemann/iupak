@@ -21,6 +21,7 @@ setup() {
 }
 @test "No parameters" {
   run -0 $bin
+  [[ "$output" =~ "N=ACGT" ]]
 }
 @test "Bad option" {
   run ! $bin -X

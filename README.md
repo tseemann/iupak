@@ -11,9 +11,33 @@ Decode and display IUPAC code information
 ## Quick Start
 
 ```
-% iupak 
+% iupack
+A=A	C=C	G=G	T=T	
+K=GT	M=AC	R=AG	S=GC	
+W=AT	Y=CT	B=CGT	D=AGT	
+H=ACT	V=ACG	N=ACGT
 
+% iupak GRANT
+/G[AG]A[ACGT]T/
+
+% iupak -t
+<snip>
+	CT
+B	CGT
+D	AGT
+H	ACT
+V	ACG
+N	ACGT
+
+% cat test/dna.fasta
+>dna1
+GATTACA
+>dna2
+GRANT
+
+% iupak test/dna.fasta
 FIXME
+
 ```
 
 ## Installation
@@ -32,8 +56,6 @@ $ iupak -h
 % chmod +x iupak
 % iupak -h
 ```   
-
-## Usage
 
 ## References
 
